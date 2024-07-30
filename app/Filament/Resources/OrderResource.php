@@ -227,7 +227,7 @@ class OrderResource extends Resource
                 ExportBulkAction::make('export')
                     ->label(trans('general.export'))
             ])
-            ->defaultSort('created_at', 'desc')
+            ->defaultSort('id', 'asc')
             ->persistSortInSession();
     }
 

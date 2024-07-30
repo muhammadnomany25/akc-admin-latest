@@ -9,23 +9,33 @@ use Illuminate\Support\Facades\App;
 
 class OrderObserver
 {
+
+    public function created(Order $order)
+    {
+        $this->notifyTechnician($order);
+    }
     public function updated(Order $order)
     {
         // Check if the 'status' column was changed
         if ($order->isDirty('technician_id')) {
-            $oldTechnicianId = $order->getOriginal('technician_id');
-            $newTechnicianId = $order->technician_id;
+            $this->notifyTechnician($order);
+        }
+    }
 
-            if ($oldTechnicianId != $newTechnicianId) {
-                $technician = Technician::find($newTechnicianId);
-                if ($technician && $technician->fcm_token) {
-                    $fcmService = App::make(FCMService::class);
+    protected function notifyTechnician(Order $order)
+    {
+        $oldTechnicianId = $order->getOriginal('technician_id');
+        $newTechnicianId = $order->technician_id;
 
-                    $deviceToken = $technician->fcm_token;
-                    $title = 'New Order Assignment';
-                    $body = 'You have been assigned a new order';
-                    $fcmService->sendNotification($deviceToken, $title, $body);
-                }
+        if ($oldTechnicianId != $newTechnicianId) {
+            $technician = Technician::find($newTechnicianId);
+            if ($technician && $technician->fcm_token) {
+                $fcmService = App::make(FCMService::class);
+
+                $deviceToken = $technician->fcm_token;
+                $title = 'New Order Assignment';
+                $body = 'You have been assigned a new order';
+                $fcmService->sendNotification($deviceToken, $title, $body);
             }
         }
     }
