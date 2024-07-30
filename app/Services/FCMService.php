@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use GuzzleHttp\Client;
+use Kreait\Firebase\Exception\FirebaseException;
+use Kreait\Firebase\Exception\MessagingException;
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\Messaging\AndroidConfig;
 use Kreait\Firebase\Messaging\CloudMessage;
@@ -41,6 +43,9 @@ class FCMService
             ->withAndroidConfig($config)
             ->withData($data);
 
-        $cloudMessaging->send($message);
+        try {
+            $cloudMessaging->send($message);
+        } catch (MessagingException|FirebaseException $e) {
+        }
     }
 }

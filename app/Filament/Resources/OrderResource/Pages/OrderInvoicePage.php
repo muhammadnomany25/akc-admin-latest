@@ -4,6 +4,8 @@ namespace App\Filament\Resources\OrderResource\Pages;
 
 use App\Filament\Resources\OrderResource;
 use App\Models\OrderInvoice;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Form;
 use Filament\Resources\Pages\ManageRelatedRecords;
 use Filament\Tables;
 use Filament\Tables\Columns\Summarizers\Summarizer;
@@ -34,6 +36,23 @@ class OrderInvoicePage extends ManageRelatedRecords
     public static function getModelLabel(): string
     {
         return trans('orders.invoiceAction');
+    }
+
+    public function form(Form $form): Form
+    {
+        return $form
+            ->schema([
+                TextInput::make('item_name')
+                    ->label(trans('invoice.item_name')),
+
+                TextInput::make('quantity')
+                    ->numeric()
+                    ->label(trans('invoice.quantity')),
+
+                TextInput::make('item_cost')
+                    ->numeric()
+                    ->label(trans('invoice.item_cost')),
+            ]);
     }
 
     public function table(Table $table): Table
@@ -77,7 +96,7 @@ class OrderInvoicePage extends ManageRelatedRecords
             ])
             ->actions([
 //                Tables\Actions\ViewAction::make(),
-//                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make(),
 //                Tables\Actions\DeleteAction::make(),
             ])
             ->groupedBulkActions([

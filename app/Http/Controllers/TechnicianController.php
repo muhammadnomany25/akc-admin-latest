@@ -48,11 +48,13 @@ class TechnicianController extends Controller
             'items.*.quantity' => 'required|string',
             'items.*.cost' => 'required|numeric',
             'orderId' => 'required|integer',
+            'status' => 'required|integer',
             'notes' => 'nullable|string',
         ]);
 
         $orderId = $validatedData['orderId'];
         $notes = $validatedData['notes'] ?? null;
+        $status = $validatedData['status'] ?? null;
         $items = $validatedData['items'];
 
         // Check if the order exists
@@ -63,7 +65,7 @@ class TechnicianController extends Controller
             if (!empty($notes)) {
                 $order->notes = $notes;
             }
-            $order->technician_id = null;
+            $order->status = $status;
             $order->save();
 
             foreach ($items as $itemData) {
