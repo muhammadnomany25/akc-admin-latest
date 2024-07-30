@@ -48,7 +48,7 @@ class TechnicianController extends Controller
             'items.*.quantity' => 'required|string',
             'items.*.cost' => 'required|numeric',
             'orderId' => 'required|integer',
-            'status' => 'required|integer',
+            'status' => 'required|string',
             'notes' => 'nullable|string',
         ]);
 
