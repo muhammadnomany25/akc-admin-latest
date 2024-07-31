@@ -27,6 +27,7 @@ class ListOrders extends ListRecords
             trans('status.Duplicated') => Tab::make()->query(fn($query) => $query->where('status', 'Duplicated')),
             trans('status.Reassigned') => Tab::make()->query(fn($query) => $query->where('status', 'Reassigned')),
             trans('status.cancelled') => Tab::make()->query(fn($query) => $query->where('status', 'Cancelled')),
+            trans('status.Completed') => Tab::make()->query(fn($query) => $query->where('status', 'Completed')),
         ];
     }
 }
